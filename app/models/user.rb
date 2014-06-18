@@ -10,12 +10,12 @@ validates :email, presence: true, uniqueness: true
 validates :password, presence: true, confirmation: true, :on => :create
 
 
-def self.authenticate(login, email, password)
-  user = find_by_email(email)
+def self.authenticate(inp_user, password)
+  user = find_by_email(inp_user)
   if user && user.password_hash == BCrypt::Engine.hash_secret(password, user.password_salt)
     user
   else
-    user = find_by_login(login)
+    user = find_by_login(inp_user)
     if user && user.password_hash == BCrypt::Engine.hash_secret(password, user.password_salt)
       user
     else

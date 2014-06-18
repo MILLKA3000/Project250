@@ -4,7 +4,7 @@
     <data-source source="LOCAL" name="Rails Project250: development" uuid="3194aae8-3e76-4917-89c6-d18cec767369">
       <driver-ref>sqlite.xerial</driver-ref>
       <jdbc-driver>org.sqlite.JDBC</jdbc-driver>
-      <jdbc-url>jdbc:sqlite:E:\Dropbox\Ruby On Rails\Project250\db\development.sqlite3</jdbc-url>
+      <jdbc-url>jdbc:sqlite:E:\Dropbox\Ruby On Rails\RorR250\RorR250\db\development.sqlite3</jdbc-url>
       <libraries />
     </data-source>
   </component>
