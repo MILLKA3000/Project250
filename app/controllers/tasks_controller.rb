@@ -5,6 +5,7 @@ class TasksController < ApplicationController
 
   def create
     @task = Task.new(params[:task])
+    @task.u_id(session[:user_id])
     if @task.save
       redirect_to tasks_path, :notice => "Complited"
     else
@@ -38,7 +39,7 @@ class TasksController < ApplicationController
   end
 
   def index
-    @task = Task.all
+    @task = Task.where(user_id: session[:user_id])
   end
 
   def show
