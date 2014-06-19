@@ -11,3 +11,21 @@
  *= require_self
  *= require_tree .
  */
+.login{
+    display:  block;
+    float: right;
+}
+.menu_profile{
+    float: right;
+    width: 100%;
+    border-bottom: gray solid 1px;
+    display: block;
+}
+.menu_tasks{
+    padding-top: 20px;
+    float: right;
+    display: block;
+}
+#user_nav{
+    padding-bottom: 10px;
+}
