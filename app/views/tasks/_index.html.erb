@@ -1,0 +1,36 @@
+<div id="view_content">
+  <table class="table_task">
+    <tr class="sort">
+      <th>№</th>
+      <th><%= sortable "name" ,"Name"%></th>
+      <th><%= sortable "date_start" ,"Date start"%></th>
+      <th><%= sortable "date_end" ,"Date_end" %></th>
+    </tr>
+    <% i=0 %>
+    <% @task.each { |t| %>
+        <tr>
+          <td>
+            <%= i+=1 %>
+          </td>
+          <td>
+            <%=  t.name %>
+          </td>
+          <td>
+            <%=  t.date_start %>
+          </td>
+          <td>
+            <%=  t.date_end %>
+          </td>
+          <td>
+            <%= link_to "Show", task_show_path(t.id) %>
+          </td>
+          <td>
+            <%= link_to "Edit", task_edit_path(t.id) %>
+          </td>
+          <td>
+            <%= link_to "Delete", task_delete_path(t.id) %>
+          </td>
+        </tr>
+    <% } %>
+  </table>
+</div>

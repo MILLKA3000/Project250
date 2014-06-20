@@ -1,4 +1,5 @@
 class TasksController < ApplicationController
+  helper_method :sort_column, :sort_direction
   def new
     @task = Task.new
   end
@@ -43,7 +44,7 @@ class TasksController < ApplicationController
   end
 
   def index
-    @task = Task.where(user_id: session[:user_id])
+    @task = Task.where(user_id: session[:user_id]).order(sort_column + " " + sort_direction)
   end
 
   def show
@@ -53,6 +54,14 @@ class TasksController < ApplicationController
    end
   end
 
+  private
 
+  def sort_column
+    Task.column_names.include?(params[:sort]) ? params[:sort] : "name"
+  end
+
+  def sort_direction
+    %w[asc desc].include?(params[:direction]) ? params[:direction] : "asc"
+  end
 
 end

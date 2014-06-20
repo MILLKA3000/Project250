@@ -1,38 +1,8 @@
 <div class="menu_tasks">
   <%= link_to "New", task_new_path %>
 </div>
-<div>
   <h1>My tasks</h1>
-  <table>
-    <tr>
-      <td>№</td><td>Name</td><td>Start</td><td>End</td>
-    </tr>
-    <% i=0 %>
-    <% @task.each { |t| %>
-        <tr>
-          <td>
-            <%= i+=1 %>
-          </td>
-          <td>
-            <%=  t.name %>
-          </td>
-          <td>
-            <%=  t.date_start %>
-          </td>
-          <td>
-            <%=  t.date_end %>
-          </td>
-          <td>
-            <%= link_to "Show", task_show_path(t.id) %>
-          </td>
-          <td>
-            <%= link_to "Edit", task_edit_path(t.id) %>
-          </td>
-          <td>
-            <%= link_to "Delete", task_delete_path(t.id) %>
-          </td>
-        </tr>
-    <% } %>
-  </table>
-</div>
+  <%= render 'index' %>
+
+
 
