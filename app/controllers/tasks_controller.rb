@@ -14,12 +14,16 @@ class TasksController < ApplicationController
   end
 
   def edit
-    @task = Task.find(params[:id])
-    render "new"
+    if @task = Task.where(id: params[:id]).where(user_id: session[:user_id]).first
+      render "new"
+    else
+      redirect_to tasks_path
+    end
+
   end
 
   def update
-    @task = Task.find(params[:id])
+    @task = Task.where(id: params[:id]).where(user_id: session[:user_id]).first
     if @task.update_attributes(params[:task])
       redirect_to tasks_path, :notice => "Successfully updated task."
     else
@@ -29,7 +33,7 @@ class TasksController < ApplicationController
 
 
   def destroy
-    task = Task.find(params[:id])
+    task = Task.where(id: params[:id]).where(user_id: session[:user_id]).first
     if @d = task.destroy
       flash[:success] = "Task '#{task.name}' deleted"
     else
@@ -43,7 +47,10 @@ class TasksController < ApplicationController
   end
 
   def show
-    @task = Task.find(params[:id])
+   if @task = Task.where(id: params[:id]).where(user_id: session[:user_id]).first
+   else
+     redirect_to tasks_path
+   end
   end
 
 
