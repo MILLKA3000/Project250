@@ -1,12 +1,11 @@
 class TasksController < ApplicationController
   helper_method :sort_column, :sort_direction
   def new
-    @task = Task.new
+    @task = current_user.task.new
   end
 
   def create
-    @task = Task.new(params[:task])
-    @task.u_id(session[:user_id])
+    @task = current_user.task.new(params[:task])
     if @task.save
       redirect_to tasks_path, :notice => "Complited"
     else
@@ -15,7 +14,7 @@ class TasksController < ApplicationController
   end
 
   def edit
-    if @task = Task.where(id: params[:id]).where(user_id: session[:user_id]).first
+    if @task = current_user.task.find(params[:id])
       render "new"
     else
       redirect_to tasks_path
@@ -24,7 +23,7 @@ class TasksController < ApplicationController
   end
 
   def update
-    @task = Task.where(id: params[:id]).where(user_id: session[:user_id]).first
+    @task = current_user.task.find(params[:id])
     if @task.update_attributes(params[:task])
       redirect_to tasks_path, :notice => "Successfully updated task."
     else
@@ -34,7 +33,7 @@ class TasksController < ApplicationController
 
 
   def destroy
-    task = Task.where(id: params[:id]).where(user_id: session[:user_id]).first
+    task = current_user.task.find(params[:id])
     if @d = task.destroy
       flash[:success] = "Task '#{task.name}' deleted"
     else
@@ -44,11 +43,11 @@ class TasksController < ApplicationController
   end
 
   def index
-    @task = Task.where(user_id: session[:user_id]).order(sort_column + " " + sort_direction)
+    @task = current_user.task.order(sort_column + " " + sort_direction)
   end
 
   def show
-   if @task = Task.where(id: params[:id]).where(user_id: session[:user_id]).first
+   if @task = current_user.task.find(params[:id])
    else
      redirect_to tasks_path
    end

@@ -27,7 +27,7 @@
             <%= link_to "Edit", task_edit_path(t.id) %>
           </td>
           <td>
-            <%= link_to "Delete", task_delete_path(t.id) %>
+            <%= link_to "Delete", task_delete_path(t.id), method: :delete %>
           </td>
         </tr>
     <% } %>

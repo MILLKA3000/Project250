@@ -1,4 +1,5 @@
 class Task < ActiveRecord::Base
+  belongs_to :user
   attr_accessible :date_end, :date_start, :name, :text, :user_id
 
   validates :name, presence: true
