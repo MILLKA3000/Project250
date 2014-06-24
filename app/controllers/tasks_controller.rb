@@ -1,12 +1,13 @@
 class TasksController < ApplicationController
   helper_method :sort_column, :sort_direction
   def new
-    @task = current_user.task.new
+    @task = Task.new
   end
 
   def create
-    @task = current_user.task.new(params[:task])
+    @task = Task.new(params[:task])
     if @task.save
+      current_user.tasks << @task
       redirect_to tasks_path, :notice => "Complited"
     else
       render "new"
@@ -14,7 +15,8 @@ class TasksController < ApplicationController
   end
 
   def edit
-    if @task = current_user.task.find(params[:id])
+    if @task = current_user.tasks.find_by_id(params[:id])
+      @old_user = @task.users
       render "new"
     else
       redirect_to tasks_path
@@ -23,7 +25,7 @@ class TasksController < ApplicationController
   end
 
   def update
-    @task = current_user.task.find(params[:id])
+    @task = current_user.tasks.find_by_id(params[:id])
     if @task.update_attributes(params[:task])
       redirect_to tasks_path, :notice => "Successfully updated task."
     else
@@ -33,7 +35,7 @@ class TasksController < ApplicationController
 
 
   def destroy
-    task = current_user.task.find(params[:id])
+    task = current_user.tasks.find_by_id(params[:id])
     if @d = task.destroy
       flash[:success] = "Task '#{task.name}' deleted"
     else
@@ -43,14 +45,39 @@ class TasksController < ApplicationController
   end
 
   def index
-    @task = current_user.task.order(sort_column + " " + sort_direction)
+   @task = current_user.tasks.order("#{sort_column} #{sort_direction}")
   end
 
   def show
-   if @task = current_user.task.find(params[:id])
+   if @task = current_user.tasks.find_by_id(params[:id])
+     @old_user = @task.users
    else
      redirect_to tasks_path
    end
+  end
+
+  def show_users_task
+    if @task = current_user.tasks.find_by_id(params[:id])
+      @old_user = @task.users
+    else
+      redirect_to tasks_path
+    end
+  end
+
+  def delete_users
+    j = Journal.where(user_id: params[:id_user]).where(task_id: params[:id_task]).first
+    flash[:success] = "User destroy" if j.destroy
+    redirect_to show_users_task_path(params[:id_task])
+  end
+
+  def create_users_for_task
+    j = Journal.where(user_id: params[:id]).where(task_id: params[:id_task]).first
+    if j
+      flash[:success] = "Sorry. The task there is"
+    else
+      Journal.new(user_id: params[:id], task_id: params[:id_task]).save
+    end
+    redirect_to show_users_task_path(params[:id_task])
   end
 
   private

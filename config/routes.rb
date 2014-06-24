@@ -12,8 +12,11 @@ Project::Application.routes.draw do
     post '/' => :create
     get 'new' => :new, as: :task_new
     get 'edit/:id' => :edit, as: :task_edit
-    get '/:id' => :show, as: :task_show
     put '/:id' => :update
+    get '/:id' => :show, as: :task_show
+    get 'show_users/:id' => :show_users_task, as: :show_users_task
+    delete 'add_users/:id_user/:id_task' => :delete_users, as: :task_user_delete
+    put 'add_users/:id_task' => :create_users_for_task, as: :task_user_create
     delete ':id' => :destroy, as: :task_delete
   end
 

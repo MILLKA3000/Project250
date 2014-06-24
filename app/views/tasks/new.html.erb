@@ -1,5 +1,5 @@
 <div>
-<%= form_for @task, :url => tasks_path do |f| %>
+<%= form_for @task, :url => tasks_path+"/"+@task.id.to_s do |f| %>
     <% if @task.errors.any? %>
         <div class="error_messages">
           <h2>Form is invalid</h2>
@@ -25,6 +25,18 @@
     <p>
       <%= f.label :date_end %><br />
       <%= f.text_field :date_end, class: "datepicker" %>
+    </p>
+
+      <% if @old_user %>
+        <p style="border-bottom: solid gray 2px; width:250px">
+           Access user: <br>
+        <p>
+        <% @old_user.each do |user,key| %>
+          <%= user.fname + " " + user.lname%>
+          <br>
+        <% end %>
+      <% end %>
+    </p>
     </p>
     <p class="button"><%= f.submit %></p>
 <% end %>

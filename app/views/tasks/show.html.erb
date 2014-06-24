@@ -12,3 +12,13 @@
 <p>
   End date: <%= @task.date_end %>
 </p>
+
+<% if @old_user %>
+    <p style="border-bottom: solid gray 2px; width:250px">
+      Access user: <br>
+    <p>
+      <% @old_user.each do |user,key| %>
+          <%= user.fname + " " + user.lname%>
+          <br>
+      <% end %>
+<% end %>

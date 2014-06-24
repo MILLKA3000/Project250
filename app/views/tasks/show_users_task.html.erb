@@ -1,0 +1,40 @@
+<% if @old_user %>
+    <p>
+        <H2>Task: <%= @task.name %> <br></H2>
+    </p>
+    <p>
+    Access users: <br>
+    </p>
+    <table>
+      <% i=0 %>
+      <% @old_user.each { |t| %>
+          <tr>
+            <td>
+              <%= i+=1 %>
+            </td>
+            <td>
+              <%=  t.fname %>
+            </td>
+            <td>
+              <%=  t.lname %>
+            </td>
+            <td>
+              <%=  t.email %>
+            </td>
+            <td>
+              <%= link_to "Delete", task_user_delete_path(t.id,@task.id), method: :delete %>
+            </td>
+          </tr>
+      <% } %>
+    </table>
+<% else%>
+    No users!
+<% end%>
+
+<%= form_for @old_user, :url => task_user_create_path(@task.id) do |f| %>
+    <p>
+        <%= label_tag(:id, "Add id user") %>
+        <%= text_field_tag(:id) %>
+        <%= submit_tag("Add") %>
+    </p>
+<% end %>

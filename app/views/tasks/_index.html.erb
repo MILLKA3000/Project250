@@ -1,3 +1,4 @@
+ <% if @task %>
   <table class="table_task">
     <tr class="sort">
       <th>№</th>
@@ -27,8 +28,14 @@
             <%= link_to "Edit", task_edit_path(t.id) %>
           </td>
           <td>
+            <%= link_to "Add users for this task", show_users_task_path(t.id) %>
+          </td>
+          <td>
             <%= link_to "Delete", task_delete_path(t.id), method: :delete %>
           </td>
         </tr>
     <% } %>
   </table>
+<% else %>
+    <h2>No tasks!</h2>
+<% end %>

@@ -1,5 +1,6 @@
 class User < ActiveRecord::Base
-has_many :task, :dependent =>:destroy
+  has_many :journals
+  has_many :tasks, through: :journals
 attr_accessible :email, :fname, :lname, :login, :password, :password_confirmation
 attr_accessor :password
 before_save :encrypt_password
