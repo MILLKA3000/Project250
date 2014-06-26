@@ -1,0 +1,32 @@
+<% if @old_user %>
+    <table class="table_user_task">
+      <tr class="sort">
+        <th>№</th>
+        <th><%= sortable_task_users "fname" ,"FName"%></th>
+        <th><%= sortable_task_users "lname" ,"Lname"%></th>
+        <th><%= sortable_task_users "email" ,"E-mail" %></th>
+      </tr>
+      <% i=0 %>
+      <% @old_user.each { |t| %>
+          <tr>
+            <td>
+              <%= i+=1 %>
+            </td>
+            <td>
+              <%=  t.fname %>
+            </td>
+            <td>
+              <%=  t.lname %>
+            </td>
+            <td>
+              <%=  t.email %>
+            </td>
+            <td>
+              <%= link_to "Delete", task_user_delete_path(t.id,@task.id), method: :delete %>
+            </td>
+          </tr>
+      <% } %>
+    </table>
+<% else%>
+    No users!
+<% end%>

@@ -30,15 +30,15 @@
     padding-bottom: 10px;
 }
 
-.table_task th .current {
+.table_task th .current, .table_user_task th .current {
     padding-right: 12px;
     background-repeat: no-repeat;
     background-position: right center;
 }
-.table_task th .asc {
+.table_task th .asc, .table_user_task th .asc {
     background-image: url(up_arrow.gif);
 }
 
-.table_task th .desc {
+.table_task th .desc, .table_user_task th .desc {
     background-image: url(down_arrow.gif);
 }

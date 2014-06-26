@@ -1,0 +1,41 @@
+<% if @task %>
+    <table class="table_task">
+      <tr class="sort">
+        <th>№</th>
+        <th><%= sortable "name" ,"Name"%></th>
+        <th><%= sortable "date_start" ,"Date start"%></th>
+        <th><%= sortable "date_end" ,"Date_end" %></th>
+      </tr>
+      <% i=0 %>
+      <% @task.each { |t| %>
+          <tr>
+            <td>
+              <%= i+=1 %>
+            </td>
+            <td>
+              <%=  t.name %>
+            </td>
+            <td>
+              <%=  t.date_start %>
+            </td>
+            <td>
+              <%=  t.date_end %>
+            </td>
+            <td>
+              <%
+                 t[:users].each { |user| %>
+                  <p style="font-size: 8pt;color:green">
+                    <%=  user[:name].fname + " " + user[:name].lname %>
+                  </p>
+              <% } %>
+            </td>
+            <td>
+              <%= link_to "Show", task_show_path(t.id) %>
+            </td>
+          </tr>
+      <% } %>
+    </table>
+    <%= will_paginate @task %>
+<% else %>
+    <h2>No tasks!</h2>
+<% end %>

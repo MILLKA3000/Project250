@@ -1,5 +1,5 @@
 class TasksController < ApplicationController
-  helper_method :sort_column, :sort_direction
+  helper_method :sort_column, :sort_direction, :task_users_column
   def new
     @task = Task.new
   end
@@ -45,11 +45,11 @@ class TasksController < ApplicationController
   end
 
   def index
-   @task = current_user.tasks.order("#{sort_column} #{sort_direction}")
+   @task = current_user.tasks.order("#{sort_column} #{sort_direction}").paginate(:per_page => 20, :page => params[:page])
   end
 
   def show
-   if @task = current_user.tasks.find_by_id(params[:id])
+   if @task = Task.find_by_id(params[:id])
      @old_user = @task.users
    else
      redirect_to tasks_path
@@ -58,7 +58,7 @@ class TasksController < ApplicationController
 
   def show_users_task
     if @task = current_user.tasks.find_by_id(params[:id])
-      @old_user = @task.users
+      @old_user = @task.users.order("#{task_users_column} #{sort_direction}").paginate(:per_page => 20, :page => params[:page])
     else
       redirect_to tasks_path
     end
@@ -73,17 +73,36 @@ class TasksController < ApplicationController
   def create_users_for_task
     j = Journal.where(user_id: params[:id]).where(task_id: params[:id_task]).first
     if j
-      flash[:success] = "Sorry. The task there is"
+      flash[:alert] = "Sorry. The task there is"
     else
-      Journal.new(user_id: params[:id], task_id: params[:id_task]).save
+      if User.find_by_id(params[:id])
+        flash[:success] = "User add" if Journal.new(user_id: params[:id], task_id: params[:id_task]).save
+      else
+        flash[:alert] = "No search user"
+      end
     end
     redirect_to show_users_task_path(params[:id_task])
+  end
+
+  def view_all_tasks
+    @task = Task.order("#{sort_column} #{sort_direction}").paginate(:per_page => 20, :page => params[:page])
+    @task.map do |el|
+      users = Journal.where(task_id: el[:id])
+       users.map do |em|
+          em[:name] = User.find(em.user_id)
+       end
+      el[:users] = users
+    end
   end
 
   private
 
   def sort_column
     Task.column_names.include?(params[:sort]) ? params[:sort] : "name"
+  end
+
+  def task_users_column
+    User.column_names.include?(params[:sort]) ? params[:sort] : "fname"
   end
 
   def sort_direction

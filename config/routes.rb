@@ -18,6 +18,7 @@ Project::Application.routes.draw do
     delete 'add_users/:id_user/:id_task' => :delete_users, as: :task_user_delete
     put 'add_users/:id_task' => :create_users_for_task, as: :task_user_create
     delete ':id' => :destroy, as: :task_delete
+    get 'type/:all' => :view_all_tasks, as: :view_all_tasks
   end
 
   resources :sessions do
