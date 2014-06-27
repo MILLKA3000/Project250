@@ -1,5 +1,5 @@
 class TasksController < ApplicationController
-  helper_method :sort_column, :sort_direction, :task_users_column
+  helper_method :sort_column, :sort_direction, :task_users_column, :sort_direction_for_users
   def new
     @task = Task.new
   end
@@ -91,14 +91,19 @@ class TasksController < ApplicationController
        users.map do |em|
           em[:name] = User.find(em.user_id)
        end
-      el[:users] = users
+      if (sort_direction_for_users=="asc")
+        el[:users] = users.sort_by{|k, v| k}
+      else
+        el[:users] = users.sort_by{|k, v| k}.reverse
+      end
     end
+
   end
 
   private
 
   def sort_column
-    Task.column_names.include?(params[:sort]) ? params[:sort] : "name"
+      Task.column_names.include?(params[:sort]) ? params[:sort] : "name"
   end
 
   def task_users_column
@@ -106,7 +111,10 @@ class TasksController < ApplicationController
   end
 
   def sort_direction
-    %w[asc desc].include?(params[:direction]) ? params[:direction] : "asc"
+       %w[asc desc].include?(params[:direction]) ? params[:direction] : "asc"
   end
 
+  def sort_direction_for_users
+    %w[asc desc].include?(params[:direction_users]) ? params[:direction_users] : "asc"
+  end
 end

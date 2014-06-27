@@ -5,6 +5,7 @@
         <th><%= sortable "name" ,"Name"%></th>
         <th><%= sortable "date_start" ,"Date start"%></th>
         <th><%= sortable "date_end" ,"Date_end" %></th>
+        <th><%= sortable_name_users "fname" ,"Name_users" %></th>
       </tr>
       <% i=0 %>
       <% @task.each { |t| %>
